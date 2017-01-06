@@ -1,6 +1,6 @@
 # Bosh CLI to Director
 
-Director needs open 22,25555,6868,8443 for CLI to access
+Director needs open 22,25555,6868,8443 for CLI/Bosh Init/Ops Manager to access
 
 * 22 : bootstrap the agent
 * 6868: Agent listens on 6868 as mbus so CLI can ping the agent
