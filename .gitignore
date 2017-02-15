@@ -2,3 +2,5 @@ env.sh
 terraform.tfstate
 terraform.tfstate.backup
 bosh.yml
+cloud-config.yml
+concourse.yml

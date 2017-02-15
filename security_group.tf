@@ -44,17 +44,23 @@ resource "aws_security_group" "directorSG" {
         from_port = 22
         to_port = 22
         protocol = "tcp"
-        cidr_blocks = ["${aws_subnet.PcfVpcPublicSubnet_az1.cidr_block}"]
+        cidr_blocks = ["0.0.0.0/0"]
     }
     ingress {
         from_port = 25555
         to_port = 25555
         protocol = "tcp"
-        cidr_blocks = ["${aws_subnet.PcfVpcPublicSubnet_az1.cidr_block}"]
+        cidr_blocks = ["0.0.0.0/0"]
     }
     ingress {
         from_port = 8443
         to_port = 8443
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress {
+        from_port = 8080
+        to_port = 8080
         protocol = "tcp"
         cidr_blocks = ["${aws_subnet.PcfVpcPublicSubnet_az1.cidr_block}"]
     }
@@ -62,25 +68,13 @@ resource "aws_security_group" "directorSG" {
         from_port = 6868
         to_port = 6868
         protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
         cidr_blocks = ["${aws_subnet.PcfVpcPublicSubnet_az1.cidr_block}"]
-    }
-    ingress {
-        from_port = 4222
-        to_port = 4222
-        protocol = "tcp"
-        cidr_blocks = ["${aws_subnet.PcfVpcPrivateSubnet_az1.cidr_block}"]
-    }
-    ingress {
-        from_port = 25250
-        to_port = 25250
-        protocol = "tcp"
-        cidr_blocks = ["${aws_subnet.PcfVpcPrivateSubnet_az1.cidr_block}"]
-    }
-    ingress {
-        from_port = 25777
-        to_port = 25777
-        protocol = "tcp"
-        cidr_blocks = ["${aws_subnet.PcfVpcPrivateSubnet_az1.cidr_block}"]
     }
     egress {
         from_port = 0
@@ -110,7 +104,7 @@ resource "aws_security_group" "pcfSG" {
         from_port = 0
         to_port = 0
         protocol = "-1"
-        cidr_blocks = ["${aws_subnet.PcfVpcPublicSubnet_az1.cidr_block}"]
+        cidr_blocks = ["0.0.0.0/0"]
     }
     egress {
         from_port = 0

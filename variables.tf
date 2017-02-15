@@ -2,9 +2,9 @@ variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "aws_key_name" {}
 variable "environment" {}
-variable "opsman_ami" {}
 variable "amis_nat" {}
 variable "aws_region" {}
+variable "aws_cert_arn" {}
 variable "az1" {}
 
 variable "opsman_instance_type" {

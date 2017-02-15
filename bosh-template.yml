@@ -29,11 +29,14 @@ networks:
 - name: private
   type: manual
   subnets:
-  - range: 10.0.6.0/24
-    gateway: 10.0.6.1
+  - range: 10.0.0.0/24
+    gateway: 10.0.0.1
     dns: [10.0.0.2]
     cloud_properties:
       subnet: {{subnet}} # <--- Replace with Subnet ID
+- name: public
+  type: vip
+
 
 jobs:
 - name: bosh
@@ -53,8 +56,10 @@ jobs:
 
   networks:
   - name: private
-    static_ips: [10.0.6.6]
+    static_ips: [10.0.0.10]
     default: [dns, gateway]
+  - name: public
+    static_ips: [{{ELASTIC_IP}}]
   properties:
     nats:
       address: 127.0.0.1
@@ -70,8 +75,8 @@ jobs:
       adapter: postgres
 
     registry:
-      address: 10.0.6.6
-      host: 10.0.6.6
+      address: 10.0.0.10
+      host: 10.0.0.10
       db: *db
       http:
         user: admin
@@ -82,7 +87,7 @@ jobs:
       port: 25777
 
     blobstore:
-      address: 10.0.6.6
+      address: 10.0.0.10
       port: 25250
       provider: dav
       director:
@@ -114,11 +119,10 @@ jobs:
     aws: &aws
       access_key_id: {{AWS_KEY}} # <--- Replace with AWS Access Key ID
       secret_access_key: {{AWS_SECRET}} # <--- Replace with AWS Secret Key
-      default_key_name: pcf-sding
+      default_key_name: {{KEY_NAME}}
       default_security_groups: ["{{sgp}}"]
       region: us-east-1  # <--- Replace with Region
-
-    agent: {mbus: "nats://nats:nats-password@10.0.6.6:4222"} # <--- Uncomment & change
+    agent: {mbus: "nats://nats:nats-password@10.0.0.10:4222"} # <--- Uncomment & change
 
     ntp: &ntp [0.pool.ntp.org, 1.pool.ntp.org]
 
@@ -126,12 +130,12 @@ cloud_provider:
   template: {name: aws_cpi, release: bosh-aws-cpi}
 
   ssh_tunnel:
-    host: 10.0.6.6
+    host: {{ELASTIC_IP}}
     port: 22
     user: vcap
-    private_key: ./bosh.pem # Path relative to this manifest file
+    private_key: {{KEY_LOCAL_PATH}} # Path relative to this manifest file
 
-    mbus: "https://mbus:mbus-password@10.0.6.6:6868" # <--- Uncomment & change
+  mbus: "https://mbus:mbus-password@{{ELASTIC_IP}}:6868" # <--- Uncomment & change
 
   properties:
     aws: *aws
