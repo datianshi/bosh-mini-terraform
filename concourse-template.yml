@@ -41,6 +41,40 @@ instance_groups:
       # replace with username/password, or configure GitHub auth
       basic_auth_username: concourse
       basic_auth_password: concourse
+      uaa_auth:
+        client_id: admin
+        client_secret: admin-client-secret
+        auth_url: https://login.pcfdev.shaozhenpcf.com
+        token_url: https://login.pcfdev.shaozhenpcf.com/oauth/token
+        cf_spaces:
+          - c822d745-9695-4b0e-a3b7-8115e2fe7a47
+        cf_api_url: api.pcfdev.shaozhenpcf.com
+        cf_ca_cert: |
+          -----BEGIN CERTIFICATE-----
+          MIIEPzCCAyegAwIBAgIBATANBgkqhkiG9w0BAQsFADCBljELMAkGA1UEBhMCVVMx
+          ETAPBgNVBAgTCE5ldyBZb3JrMREwDwYDVQQHEwhOZXcgWW9yazEZMBcGA1UEChMQ
+          Q2xvdWQgRm91bmRyeSBDQTEQMA4GA1UECxMHUENGIERldjE0MDIGA1UEAxMrcGNm
+          ZGV2LnNoYW96aGVucGNmLmNvbSAyMDE3LTAyLTE1VDE0OjM1OjEzWjAeFw0xNzAy
+          MTQxNDM1MTNaFw0yNzAyMTIxNDM1MTNaMIGTMQswCQYDVQQGEwJVUzERMA8GA1UE
+          CBMITmV3IFlvcmsxETAPBgNVBAcTCE5ldyBZb3JrMRYwFAYDVQQKEw1DbG91ZCBG
+          b3VuZHJ5MRAwDgYDVQQLEwdQQ0YgRGV2MTQwMgYDVQQDEytwY2ZkZXYuc2hhb3po
+          ZW5wY2YuY29tIDIwMTctMDItMTVUMTQ6MzU6MTNaMIIBIjANBgkqhkiG9w0BAQEF
+          AAOCAQ8AMIIBCgKCAQEAuhcRNZBwWUlGkyRYdA7b6gX3tv8aJlYv5Tn7SHo8H56S
+          WiqlySzMDOgbPBywywh5zboSecUeEy4Kk2B/7MS5SL9jTbF+x6G1F5kGAWWNxMzH
+          RT3maaycDrVQxxn8gk52f1DJqDn3kuUaQIt/f56zsTAo0MNMeKDe5M5ffSn5zW1A
+          xq5cJtbtskvUjfrAV0S7V8F8rJGSQBJA9v5oWu1L/C5Ze6KLjJTdWuO1EWLv6kng
+          FUhnL3AU4tTzKlyL6t/v1u23JhpojzYZvs6eoX0O++KCH0vKnlBYKBGh/WKx7fSv
+          fe7EkMWn1NiagOhLzVzCCuciAS5XpDQlIoVH3qJ3FwIDAQABo4GYMIGVMIGSBgNV
+          HREEgYowgYeCFnBjZmRldi5zaGFvemhlbnBjZi5jb22CGCoucGNmZGV2LnNoYW96
+          aGVucGNmLmNvbYIeKi5sb2dpbi5wY2ZkZXYuc2hhb3poZW5wY2YuY29tghwqLnVh
+          YS5wY2ZkZXYuc2hhb3poZW5wY2YuY29tgRVwY2ZkZXYtZW5nQHBpdm90YWwuaW8w
+          DQYJKoZIhvcNAQELBQADggEBADdrOPFE4ivyNUFVCzuKXanARc6ADfTXQq5CrSTh
+          BCtdaUUUK+Hq7onQwpi6e7yXhvLsi9BH+G+MlFUHyLG/Mho7yLjbGjTWlj90jbV3
+          5bDg3fHGHa9cFWbcjR0LsRToGwFhaSJpibH4FShQlXH1cgg+r8bgFtT0xuZ2bIA3
+          59aGK/d2SE4vby57XKoTiWmTYhyewDlMxqkvQt4KQNtXo79IYD92z9KbN4sjUH+V
+          Ui5W1t+A+qwmCCROgzF9durQe5U8/z/QMCvwnZKyMlp0XHPRyvBCn9G8Soenqaet
+          25xeiTjm9JbHyVByNEc0Bmg6biEVMLp0NMULf5aw+/GW+GA=
+          -----END CERTIFICATE-----
 
       # replace with your SSL cert and key
       # tls_cert: REPLACE_ME
