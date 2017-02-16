@@ -6,6 +6,7 @@ variable "amis_nat" {}
 variable "aws_region" {}
 variable "aws_cert_arn" {}
 variable "az1" {}
+variable "route53_zone_id" {}
 
 variable "opsman_instance_type" {
     description = "Instance Type for OpsMan"

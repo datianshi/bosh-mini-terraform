@@ -33,12 +33,12 @@ networks:
 - name: private
   type: manual
   subnets:
-  - range: 10.0.0.0/24
-    gateway: 10.0.0.1
+  - range: 10.0.1.0/24
+    gateway: 10.0.1.1
     az: z1
-    static: [10.0.0.30]
+    static: [10.0.1.30]
     dns: [10.0.0.2]
-    reserved: [10.0.0.2 - 10.0.0.20]
+    reserved: [10.0.1.2 - 10.0.1.20]    
     cloud_properties: {subnet: {{my_subnet}}}
 - name: vip
   type: vip

@@ -76,6 +76,12 @@ resource "aws_security_group" "directorSG" {
         protocol = "-1"
         cidr_blocks = ["${aws_subnet.PcfVpcPublicSubnet_az1.cidr_block}"]
     }
+    ingress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["${aws_subnet.PcfVpcPrivateSubnet_az1.cidr_block}"]
+    }
     egress {
         from_port = 0
         to_port = 0

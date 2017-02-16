@@ -42,13 +42,14 @@ instance_groups:
       basic_auth_username: concourse
       basic_auth_password: concourse
       uaa_auth:
-        client_id: admin
-        client_secret: admin-client-secret
-        auth_url: https://login.pcfdev.shaozhenpcf.com
+        client_id: concourse
+        client_secret: concourse-secret
+        auth_url: https://login.pcfdev.shaozhenpcf.com/oauth/authorize
         token_url: https://login.pcfdev.shaozhenpcf.com/oauth/token
         cf_spaces:
           - c822d745-9695-4b0e-a3b7-8115e2fe7a47
-        cf_api_url: api.pcfdev.shaozhenpcf.com
+          - 6795b370-c6e8-4b3b-b287-898241be2607
+        cf_api_url: https://api.pcfdev.shaozhenpcf.com
         cf_ca_cert: |
           -----BEGIN CERTIFICATE-----
           MIIEPzCCAyegAwIBAgIBATANBgkqhkiG9w0BAQsFADCBljELMAkGA1UEBhMCVVMx
