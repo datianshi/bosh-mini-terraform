@@ -1,0 +1,12 @@
+[submodule "cf-release"]
+	path = cf-release
+	url = https://github.com/cloudfoundry/cf-release
+[submodule "diego-release"]
+	path = diego-release
+	url = https://github.com/cloudfoundry/diego-release
+[submodule "garden-runc-release"]
+	path = garden-runc-release
+	url = https://github.com/cloudfoundry/garden-runc-release
+[submodule "cflinuxfs2-rootfs-release"]
+	path = cflinuxfs2-rootfs-release
+	url = https://github.com/cloudfoundry/cflinuxfs2-rootfs-release
