@@ -1,0 +1,88 @@
+iaas_settings:
+  stemcell:
+    name: bosh-warden-boshlite-ubuntu-trusty-go_agent
+    version: latest
+  compilation_cloud_properties: {}
+  compilation_workers: 3
+  resource_pool_cloud_properties:
+    - name: access_z1
+      cloud_properties: {}
+    - name: access_z2
+      cloud_properties: {}
+    - name: access_z3
+      cloud_properties: {}
+    - name: brain_z1
+      cloud_properties: {}
+    - name: brain_z2
+      cloud_properties: {}
+    - name: brain_z3
+      cloud_properties: {}
+    - name: cc_bridge_z1
+      cloud_properties: {}
+    - name: cc_bridge_z2
+      cloud_properties: {}
+    - name: cc_bridge_z3
+      cloud_properties: {}
+    - name: cell_z1
+      cloud_properties: {}
+    - name: cell_z2
+      cloud_properties: {}
+    - name: cell_z3
+      cloud_properties: {}
+    - name: colocated_z1
+      cloud_properties: {}
+    - name: colocated_z2
+      cloud_properties: {}
+    - name: colocated_z3
+      cloud_properties: {}
+    - name: database_z1
+      cloud_properties: {}
+    - name: database_z2
+      cloud_properties: {}
+    - name: database_z3
+      cloud_properties: {}
+    - name: route_emitter_z1
+      cloud_properties: {}
+    - name: route_emitter_z2
+      cloud_properties: {}
+    - name: route_emitter_z3
+      cloud_properties: {}
+    - name: errand
+      cloud_properties: {}
+
+  subnet_configs:
+    - name: diego1
+      type: manual
+      subnets:
+      - range: 10.0.1.0/24
+        gateway: 10.0.1.1
+        az: z1
+        static:
+        - 10.0.1.131 - 10.0.1.140
+        dns: [10.0.0.2]
+        reserved:
+        - 10.0.1.2 - 10.0.1.130
+        cloud_properties:
+          subnet: subnet-01f3a95a
+    - name: diego2
+      type: manual
+      subnets:
+      - range: 10.0.2.0/24
+        gateway: 10.0.2.1
+        az: z2
+        static:
+        - 10.0.2.131 - 10.0.2.140
+        dns: [10.0.0.2]
+        reserved:
+        - 10.0.2.2 - 10.0.2.130
+        cloud_properties:
+          subnet: subnet-3f220c12
+    - name: diego3
+      type: manual
+      subnets:
+      - cloud_properties: {}
+        gateway: 10.244.20.1
+        range: 10.244.20.0/24
+        reserved:
+        - 10.244.20.1
+        static: []

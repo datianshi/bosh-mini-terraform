@@ -14,6 +14,18 @@ resource "aws_subnet" "PcfVpcPublicSubnet_az1" {
     }
 }
 
+resource "aws_subnet" "PcfVpcPublicSubnet_az2" {
+    vpc_id = "${aws_vpc.PcfVpc.id}"
+
+    cidr_block = "${var.public_subnet_cidr_az2}"
+    availability_zone = "${var.az2}"
+
+    tags {
+        Name = "${var.environment}-PcfVpc Public Subnet AZ2"
+    }
+}
+
+
 # 2. Create Private Subnets
 # 2.1 ERT
 resource "aws_subnet" "PcfVpcPrivateSubnet_az1" {
@@ -26,6 +38,18 @@ resource "aws_subnet" "PcfVpcPrivateSubnet_az1" {
         Name = "${var.environment}-PcfVpc Ert Subnet AZ1"
     }
 }
+
+resource "aws_subnet" "PcfVpcPrivateSubnet_az2" {
+    vpc_id = "${aws_vpc.PcfVpc.id}"
+
+    cidr_block = "${var.private_subnet_cidr_az2}"
+    availability_zone = "${var.az2}"
+
+    tags {
+        Name = "${var.environment}-PcfVpc Ert Subnet AZ2"
+    }
+}
+
 
 # Infrastructure network  - For bosh director
 resource "aws_subnet" "PcfVpcInfraSubnet_az1" {

@@ -6,6 +6,7 @@ variable "amis_nat" {}
 variable "aws_region" {}
 variable "aws_cert_arn" {}
 variable "az1" {}
+variable "az2" {}
 variable "route53_zone_id" {}
 
 variable "opsman_instance_type" {
@@ -30,9 +31,19 @@ variable "public_subnet_cidr_az1" {
     default = "10.0.0.0/24"
 }
 
+variable "public_subnet_cidr_az2" {
+    description = "CIDR for the Public Subnet 2"
+    default = "10.0.20.0/24"
+}
+
 variable private_subnet_cidr_az1 {
     description = "CIDR for the private subnet"
     default = "10.0.1.0/24"
+}
+
+variable private_subnet_cidr_az2 {
+    description = "CIDR for the private subnet"
+    default = "10.0.2.0/24"
 }
 
 variable "nat_ip_az1" {

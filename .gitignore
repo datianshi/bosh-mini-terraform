@@ -5,3 +5,5 @@ bosh.yml
 cloud-config.yml
 concourse.yml
 bosh-state.json
+cf.yml
+diego.yml
