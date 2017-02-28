@@ -1,4 +1,4 @@
-director_uuid: 91ffc777-d216-46dc-afc8-a63bd0a239f9
+director_uuid: 45fda9d5-53d6-4d4f-a959-de941bbc9c8e
 meta:
   default_quota_definitions:
     default:
@@ -11,6 +11,8 @@ meta:
   environment: aws-cf
 
 properties:
+  logger_endpoint:
+    port: 4443
   template_only:
     aws:
       availability_zone: us-east-1a
@@ -713,7 +715,10 @@ properties:
       ZmtUXS4kfpbsUVWHRb7pkl+t3jzlz6YNH8RWZfOhisNGVb7PbM8IAkuuCg==
       -----END CERTIFICATE-----
   cc:
-    default_to_diego_backend: false
+    stacks:
+      - name: "cflinuxfs2"
+        description: "Cloud Foundry Linux-based filesystem"
+    default_to_diego_backend: true
     diego:
       temporary_local_staging: false
       temporary_local_tasks: false
@@ -1297,7 +1302,7 @@ networks:
     dns: [10.0.0.2]
     reserved: [10.0.1.2 - 10.0.1.20]
     cloud_properties:
-      subnet: subnet-01f3a95a
+      subnet: subnet-2d624676
 - name: cf2
   type: manual
   subnets:
@@ -1307,7 +1312,7 @@ networks:
     dns: [10.0.0.2]
     reserved: [10.0.2.2 - 10.0.2.20]
     cloud_properties:
-      subnet: subnet-3f220c12
+      subnet: subnet-c74861ea
 jobs:
 # set up static IP for postgres
 - name: postgres_z1
@@ -1338,4 +1343,8 @@ jobs:
 - name: loggregator_trafficcontroller_z2
   instances: 0
 - name: api_z2
+  instances: 0
+- name: api_worker_z2
+  instances: 0
+- name: doppler_z2
   instances: 0

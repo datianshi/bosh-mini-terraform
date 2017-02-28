@@ -1,13 +1,20 @@
 resource "aws_elb" "cfrouter" {
   name = "cfrouter"
   subnets = ["${aws_subnet.PcfVpcPublicSubnet_az1.id}","${aws_subnet.PcfVpcPublicSubnet_az2.id}"]
-  security_groups = ["${aws_security_group.opsman.id}"]
+  security_groups = ["${aws_security_group.cfrouter.id}"]
 
   listener {
-    instance_port = 8080
+    instance_port = 80
     instance_protocol = "HTTP"
     lb_port = 443
     lb_protocol = "HTTPS"
+    ssl_certificate_id = "${var.aws_cert_arn}"
+  }
+  listener {
+    instance_port = 80
+    instance_protocol = "TCP"
+    lb_port = 4443
+    lb_protocol = "SSL"
     ssl_certificate_id = "${var.aws_cert_arn}"
   }
   health_check {

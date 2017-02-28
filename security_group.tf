@@ -3,18 +3,24 @@
 */
 
 /*
-  Ops Manager Security group
+  Load Balancer Security group
 */
-resource "aws_security_group" "opsman" {
-    name = "${var.environment}-pcf_opsman_sg"
-    description = "Allow incoming connections for Ops Manager."
+resource "aws_security_group" "cfrouter" {
+    name = "${var.environment}-cfrouter"
+    description = "Allow incoming connections for cfrouter."
     vpc_id = "${aws_vpc.PcfVpc.id}"
     tags {
-        Name = "${var.environment}-Ops Manager Director Security Group"
+        Name = "${var.environment}-cfrouter"
     }
     ingress {
         from_port = 22
         to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress {
+        from_port = 80
+        to_port = 80
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
@@ -24,13 +30,42 @@ resource "aws_security_group" "opsman" {
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
+    ingress {
+        from_port = 4443
+        to_port = 4443
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
     egress {
         from_port = 0
         to_port = 0
         protocol = -1
         cidr_blocks = ["0.0.0.0/0"]
     }
+}
 
+/*
+  Jumpbox Security group
+*/
+resource "aws_security_group" "jumpbox" {
+    name = "${var.environment}-pcf_jumpbox_sg"
+    description = "Allow incoming connections for Jumpbox."
+    vpc_id = "${aws_vpc.PcfVpc.id}"
+    tags {
+        Name = "${var.environment}-JumpBox"
+    }
+    ingress {
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = -1
+        cidr_blocks = ["0.0.0.0/0"]
+    }
 }
 
 resource "aws_security_group" "directorSG" {

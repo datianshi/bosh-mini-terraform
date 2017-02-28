@@ -9,8 +9,13 @@ variable "az1" {}
 variable "az2" {}
 variable "route53_zone_id" {}
 
-variable "opsman_instance_type" {
-    description = "Instance Type for OpsMan"
+variable "jumpbox_ami" {
+  description = "AMI for jumpbox"
+  default = "ami-3fcbe128"
+}
+
+variable "jumpbox_instance_type" {
+    description = "Instance Type for Jumpbox"
     default = "m3.large"
 }
 variable "nat_instance_type" {

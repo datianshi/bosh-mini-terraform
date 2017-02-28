@@ -11,6 +11,8 @@ meta:
   environment: aws-cf
 
 properties:
+  logger_endpoint:
+    port: 4443
   template_only:
     aws:
       availability_zone: {{zone1}}
@@ -713,7 +715,10 @@ properties:
       ZmtUXS4kfpbsUVWHRb7pkl+t3jzlz6YNH8RWZfOhisNGVb7PbM8IAkuuCg==
       -----END CERTIFICATE-----
   cc:
-    default_to_diego_backend: false
+    stacks:
+      - name: "cflinuxfs2"
+        description: "Cloud Foundry Linux-based filesystem"
+    default_to_diego_backend: true
     diego:
       temporary_local_staging: false
       temporary_local_tasks: false
@@ -1338,4 +1343,8 @@ jobs:
 - name: loggregator_trafficcontroller_z2
   instances: 0
 - name: api_z2
+  instances: 0
+- name: api_worker_z2
+  instances: 0
+- name: doppler_z2
   instances: 0

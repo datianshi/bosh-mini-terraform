@@ -30,6 +30,8 @@ diego_template=$(dirname $0)/../diego-template
 cp diego-template/iaas-settings-template.yml diego-template/iaas-settings.yml
 perl -pi -e "s|{{subnet_az1}}|${private_subnet_id}|g" diego-template/iaas-settings.yml
 perl -pi -e "s|{{subnet_az2}}|${private_subnet_id2}|g" diego-template/iaas-settings.yml
+perl -pi -e "s/{{zone1}}/${TF_VAR_az1}/g" diego-template/iaas-settings.yml
+perl -pi -e "s/{{zone2}}/${TF_VAR_az2}/g" diego-template/iaas-settings.yml
 
 pushd diego-release
 ./scripts/generate-deployment-manifest \
@@ -38,6 +40,6 @@ pushd diego-release
     -p ${diego_template}/property-overrides.yml \
     -n ${diego_template}/instance-count-overrides.yml \
     -x \
-    -s manifest-generation/bosh-lite-stubs/mysql/diego-sql.yml \
+    -s ${diego_template}/postgres.yml \
     > ../diego.yml
 popd
