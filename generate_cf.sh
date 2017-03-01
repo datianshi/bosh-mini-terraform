@@ -6,8 +6,8 @@ private_subnet_id2=$(terraform state show aws_subnet.PcfVpcPrivateSubnet_az2|hea
 cp cf-custom.yml cf-template.yml
 
 # bosh upload release https://bosh.io/d/github.com/cloudfoundry/cf-release?v=252
-# bosh upload release https://bosh.io/d/github.com/cloudfoundry-incubator/garden-runc-release?v=1.0.0
-# bosh upload release https://bosh.io/d/github.com/cloudfoundry-incubator/diego-release?v=0.1476.0
+# bosh upload release garden-runc-release/releases/garden-runc/garden-runc-1.2.0.tgz
+# bosh upload release diego-release/releases/diego-1.8.0.tgz
 # bosh upload release https://bosh.io/d/github.com/cloudfoundry/cflinuxfs2-rootfs-release
 # bosh upload stemcell https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-trusty-go_agent?v=3363.9
 

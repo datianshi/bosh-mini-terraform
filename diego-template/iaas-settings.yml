@@ -102,7 +102,7 @@ iaas_settings:
         reserved:
         - 10.0.1.2 - 10.0.1.130
         cloud_properties:
-          subnet: subnet-2d624676
+          subnet: subnet-6485a13f
     - name: diego2
       type: manual
       subnets:
@@ -114,7 +114,7 @@ iaas_settings:
         reserved:
         - 10.0.2.2 - 10.0.2.130
         cloud_properties:
-          subnet: subnet-c74861ea
+          subnet: subnet-e16941cc
     - name: diego3
       type: manual
       subnets:

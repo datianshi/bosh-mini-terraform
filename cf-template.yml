@@ -1,4 +1,4 @@
-director_uuid: 45fda9d5-53d6-4d4f-a959-de941bbc9c8e
+director_uuid: dfc22e50-d4c1-4b0f-81bd-fcab155a2260
 meta:
   default_quota_definitions:
     default:
@@ -1302,7 +1302,7 @@ networks:
     dns: [10.0.0.2]
     reserved: [10.0.1.2 - 10.0.1.20]
     cloud_properties:
-      subnet: subnet-2d624676
+      subnet: subnet-6485a13f
 - name: cf2
   type: manual
   subnets:
@@ -1312,7 +1312,7 @@ networks:
     dns: [10.0.0.2]
     reserved: [10.0.2.2 - 10.0.2.20]
     cloud_properties:
-      subnet: subnet-c74861ea
+      subnet: subnet-e16941cc
 jobs:
 # set up static IP for postgres
 - name: postgres_z1

@@ -845,3 +845,9 @@ property_overrides:
         I0YSumzEeQMcFbg0LUYayZ9PlhPgLosMba9BDK/K244OZvmGyRr1ANnnASsQg4cK
         vsHDEV4jBWxHAw41ArfNLg9vA8ojf/1EU4E2d5GU5fVe
         -----END CERTIFICATE-----
+  cell_z1:
+    placement_tags:
+    - z1_tag
+  cell_z2:
+    placement_tags:
+    - z2_tag
