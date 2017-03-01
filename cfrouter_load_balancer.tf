@@ -17,6 +17,12 @@ resource "aws_elb" "cfrouter" {
     lb_protocol = "SSL"
     ssl_certificate_id = "${var.aws_cert_arn}"
   }
+  listener {
+    instance_port = 80
+    instance_protocol = "TCP"
+    lb_port = 80
+    lb_protocol = "TCP"
+  }
   health_check {
     target = "TCP:80"
     timeout = 5
