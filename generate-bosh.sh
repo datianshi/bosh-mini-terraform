@@ -2,21 +2,10 @@
 
 set -ex
 
-cp bosh-template.yml bosh.yml
-sec_id=$(terraform state show aws_security_group.directorSG|head -n 1|awk '{print $3}')
-subnet_id=$(terraform state show aws_subnet.PcfVpcPublicSubnet_az1|head -n 1|awk '{print $3}')
-private_subnet_id=$(terraform state show aws_subnet.PcfVpcPrivateSubnet_az1|head -n 1|awk '{print $3}')
-private_subnet_id2=$(terraform state show aws_subnet.PcfVpcPrivateSubnet_az2|head -n 1|awk '{print $3}')
-
-#elb_dns="https://concourse.shaozhenpcf.com"
-perl -pi -e "s/{{sgp}}/${sec_id}/g" bosh.yml
-perl -pi -e "s/{{subnet}}/${subnet_id}/g" bosh.yml
-perl -pi -e "s/{{AWS_KEY}}/${TF_VAR_aws_access_key}/g" bosh.yml
-perl -pi -e "s/{{AWS_SECRET}}/${TF_VAR_aws_secret_key}/g" bosh.yml
-perl -pi -e "s/{{KEY_NAME}}/${TF_VAR_aws_key_name}/g" bosh.yml
-perl -pi -e "s|{{KEY_LOCAL_PATH}}|${KEY_LOCAL_PATH}|g" bosh.yml
-perl -pi -e "s|{{ELASTIC_IP}}|${ELASTIC_IP}|g" bosh.yml
-
+erb bosh-template.yml > bosh.yml
+gcloud compute copy-files bosh.yml bosh-bastion:~/
+gcloud compute copy-files ~/.ssh/google_compute_engine bosh-bastion:~/bosh_private_key
+gcloud compute ssh bosh-bastion --command 'bosh-init deploy bosh.yml'
 
 # bosh-init deploy bosh.yml
 # bosh target ${ELASTIC_IP}
@@ -24,11 +13,11 @@ perl -pi -e "s|{{ELASTIC_IP}}|${ELASTIC_IP}|g" bosh.yml
 
 # uuid=$(bosh status --uuid)
 
-cp cloud-config-template.yml cloud-config.yml
-
-perl -pi -e "s|{{my_subnet}}|${private_subnet_id}|g" cloud-config.yml
-perl -pi -e "s|{{subnet_az1}}|${private_subnet_id}|g" cloud-config.yml
-perl -pi -e "s|{{subnet_az2}}|${private_subnet_id2}|g" cloud-config.yml
+# cp cloud-config-template.yml cloud-config.yml
+#
+# perl -pi -e "s|{{my_subnet}}|${private_subnet_id}|g" cloud-config.yml
+# perl -pi -e "s|{{subnet_az1}}|${private_subnet_id}|g" cloud-config.yml
+# perl -pi -e "s|{{subnet_az2}}|${private_subnet_id2}|g" cloud-config.yml
 
 # bosh update cloud-config cloud-config.yml
 #
