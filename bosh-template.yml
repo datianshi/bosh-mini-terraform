@@ -17,7 +17,7 @@ resource_pools:
       sha1: 3ac3ee83750f75bd74e8d3e3ad97808db23c30ba
     cloud_properties:
       zone: <%= ENV['zone'] %>
-      machine_type: n1-standard-1
+      machine_type: n1-standard-2
       root_disk_size_gb: 40
       root_disk_type: pd-standard
       service_account: <%= ENV['service_account_email'] %>
@@ -126,7 +126,7 @@ jobs:
         resurrector_enabled: true
 
       google: &google_properties
-        project: <%= ENV['project_id'] %>
+        project: <%= ENV['projectid'] %>
 
       agent:
         mbus: nats://nats:nats-password@<%= ENV['base_ip'].split('.').tap{|i| i[-1] = i[-1].to_i + 6 }.join('.') %>:4222

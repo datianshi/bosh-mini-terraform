@@ -1,45 +1,41 @@
-
 set -e
-private_subnet_id=$(terraform state show aws_subnet.PcfVpcPrivateSubnet_az1|head -n 1|awk '{print $3}')
-private_subnet_id2=$(terraform state show aws_subnet.PcfVpcPrivateSubnet_az2|head -n 1|awk '{print $3}')
 
-cp cf-custom.yml cf-template.yml
+export vip=$(terraform output ip)
+export tcp_vip=$(terraform output tcp_ip)
+export zone=$(terraform output zone)
+export zone_compilation=$(terraform output zone_compilation)
+export region=$(terraform output region)
+export region_compilation=$(terraform output region_compilation)
+export private_subnet=$(terraform output private_subnet)
+export compilation_subnet=$(terraform output compilation_subnet)
+export network=$(terraform output network)
 
-# bosh upload release https://bosh.io/d/github.com/cloudfoundry/cf-release?v=252
-# bosh upload release garden-runc-release/releases/garden-runc/garden-runc-1.2.0.tgz
-# bosh upload release diego-release/releases/diego-1.8.0.tgz
-# bosh upload release https://bosh.io/d/github.com/cloudfoundry/cflinuxfs2-rootfs-release
-# bosh upload stemcell https://bosh.io/d/stemcells/bosh-aws-xen-hvm-ubuntu-trusty-go_agent?v=3363.9
+function gcloudCommand() {
+    gcloud compute ssh bosh-bastion --command "$1"
+}
+
+function uploadStemcell() {
+  gcloudCommand "bosh upload stemcell $1"
+}
+
+function uploadRelease() {
+  gcloudCommand "bosh upload release $1"
+}
+
+gcloudCommand 'bosh -n target 10.0.0.6'
+gcloudCommand 'bosh login admin admin'
+export director=$(gcloudCommand 'bosh status --uuid')
+
+uploadStemcell https://bosh.io/d/stemcells/bosh-google-kvm-ubuntu-trusty-go_agent?v=3312.15
+uploadRelease https://bosh.io/d/github.com/cloudfoundry/cf-mysql-release?v=23
+uploadRelease https://bosh.io/d/github.com/cloudfoundry-incubator/garden-linux-release?v=0.340.0
+uploadRelease https://bosh.io/d/github.com/cloudfoundry-incubator/etcd-release?v=43
+uploadRelease https://bosh.io/d/github.com/cloudfoundry-incubator/diego-release?v=0.1463.0
+uploadRelease https://bosh.io/d/github.com/cloudfoundry/cf-release?v=249
+uploadRelease https://bosh.io/d/github.com/cloudfoundry-incubator/cf-routing-release?v=0.142.0
 
 
-uuid=$(bosh status --uuid)
-perl -pi -e "s|{{uuid}}|${uuid}|g" cf-template.yml
-
-perl -pi -e "s/{{AWS_KEY}}/${TF_VAR_aws_access_key}/g" cf-template.yml
-perl -pi -e "s/{{AWS_SECRET}}/${TF_VAR_aws_secret_key}/g" cf-template.yml
-perl -pi -e "s/{{zone1}}/${TF_VAR_az1}/g" cf-template.yml
-perl -pi -e "s/{{zone2}}/${TF_VAR_az2}/g" cf-template.yml
-perl -pi -e "s|{{subnet_az1}}|${private_subnet_id}|g" cf-template.yml
-perl -pi -e "s|{{subnet_az2}}|${private_subnet_id2}|g" cf-template.yml
-perl -pi -e "s|{{system_domain}}|${system_domain}|g" cf-template.yml
-
-./cf-release/scripts/generate_deployment_manifest aws cf-template.yml > cf.yml
-
-diego_template=$(dirname $0)/../diego-template
-
-cp diego-template/iaas-settings-template.yml diego-template/iaas-settings.yml
-perl -pi -e "s|{{subnet_az1}}|${private_subnet_id}|g" diego-template/iaas-settings.yml
-perl -pi -e "s|{{subnet_az2}}|${private_subnet_id2}|g" diego-template/iaas-settings.yml
-perl -pi -e "s/{{zone1}}/${TF_VAR_az1}/g" diego-template/iaas-settings.yml
-perl -pi -e "s/{{zone2}}/${TF_VAR_az2}/g" diego-template/iaas-settings.yml
-
-pushd diego-release
-./scripts/generate-deployment-manifest \
-    -c ../cf.yml \
-    -i ${diego_template}/iaas-settings.yml \
-    -p ${diego_template}/property-overrides.yml \
-    -n ${diego_template}/instance-count-overrides.yml \
-    -x \
-    -s ${diego_template}/postgres.yml \
-    > ../diego.yml
-popd
+erb cf-template.yml > cf.yml
+gcloud compute copy-files cf.yml bosh-bastion:~/
+gcloudCommand 'bosh deployment cf.yml'
+gcloudCommand 'bosh -n deploy'
