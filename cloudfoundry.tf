@@ -3,7 +3,7 @@ resource "google_compute_subnetwork" "cf-compilation-subnet-1" {
   name          = "${var.prefix}cf-compilation-${var.region_compilation}"
   region        = "${var.region_compilation}"
   ip_cidr_range = "10.200.0.0/16"
-  network       = "${google_compute_network.bosh.name}"
+  network       = "${google_compute_network.bosh.self_link}"
 
 }
 
@@ -11,7 +11,7 @@ resource "google_compute_subnetwork" "cf-compilation-subnet-1" {
 resource "google_compute_subnetwork" "cf-private-subnet-1" {
   name          = "${var.prefix}cf-private-${var.region}"
   ip_cidr_range = "192.168.0.0/16"
-  network       = "${google_compute_network.bosh.name}"
+  network       = "${google_compute_network.bosh.self_link}"
 }
 
 // Allow access to CloudFoundry HTTP router
