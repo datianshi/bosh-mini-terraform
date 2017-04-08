@@ -136,6 +136,16 @@ resource "google_compute_forwarding_rule" "cf-tcp" {
   ip_address  = "${google_compute_address.cf-tcp.address}"
 }
 
+resource "google_dns_record_set" "pcf-dns" {
+  name = "*.${var.domain}."
+  type = "A"
+  ttl  = 300
+
+  managed_zone = "pcf"
+
+  rrdatas = ["${google_compute_address.cf.address}"]
+}
+
 output "ip" {
     value = "${google_compute_address.cf.address}"
 }

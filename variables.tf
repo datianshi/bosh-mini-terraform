@@ -4,6 +4,10 @@ variable "latest_ubuntu" {
     default = "ubuntu-1404-trusty-v20161109"
 }
 
+variable "domain" {
+    type = "string"
+}
+
 variable "projectid" {
     type = "string"
 }
