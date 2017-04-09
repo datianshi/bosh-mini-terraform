@@ -51,3 +51,7 @@ variable "cf_network" {
     type = "string"
     default = "bosh"
 }
+
+variable "kubo_region" {
+  type = "string"
+}
