@@ -41,6 +41,12 @@ resource "aws_security_group" "directorSG" {
         Name = "${var.environment}-Bosh Director Security Group"
     }
     ingress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["${aws_subnet.PcfVpcInfraSubnet_az1.cidr_block}"]
+    }
+    ingress {
         from_port = 22
         to_port = 22
         protocol = "tcp"
@@ -49,6 +55,12 @@ resource "aws_security_group" "directorSG" {
     ingress {
         from_port = 25555
         to_port = 25555
+        protocol = "tcp"
+        cidr_blocks = ["${aws_subnet.PcfVpcPublicSubnet_az1.cidr_block}"]
+    }
+    ingress {
+        from_port = 8844
+        to_port = 8844
         protocol = "tcp"
         cidr_blocks = ["${aws_subnet.PcfVpcPublicSubnet_az1.cidr_block}"]
     }
